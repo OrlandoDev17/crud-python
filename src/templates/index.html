@@ -1,0 +1,51 @@
+{% extends 'base.html' %} {% block content %}
+<h1>Lista de Productos</h1>
+
+<!-- Mensajes flash -->
+{% with messages = get_flashed_messages() %} {% if messages %}
+<div class="flash-message">
+  {% for message in messages %} {{ message }} {% endfor %}
+</div>
+{% endif %} {% endwith %}
+
+<!-- Botón para agregar un producto -->
+<a href="{{ url_for('add') }}" class="button">Agregar Producto</a>
+
+<!-- Tabla para mostrar los productos -->
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nombre</th>
+      <th>Descripción</th>
+      <th>Precio</th>
+      <th>Stock</th>
+      <th>Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for producto in productos %}
+    <tr>
+      <td>{{ producto[0] }}</td>
+      <td>{{ producto[1] }}</td>
+      <td>{{ producto[2] }}</td>
+      <td>$ {{ producto[3] }}</td>
+      <td>{{ producto[4] }}</td>
+      <td>
+        <!-- Botones para editar y eliminar -->
+        <a
+          href="{{ url_for('get_product', id=producto[0]) }}"
+          class="button-edit"
+          >Editar</a
+        >
+        <a
+          href="{{ url_for('delete_product', id=producto[0]) }}"
+          class="button-delete"
+          >Eliminar</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
